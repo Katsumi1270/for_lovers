@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>恋人へ</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@300;600&display=swap');
+
+        /* --- General Styles --- */
+        :root {
+            --bg-color: #f0f8ff;       
+            --accent-color: #5d9cec;   
+            --text-color: #4a4a4a;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            font-family: 'Nunito', sans-serif;
+            color: var(--text-color);
+            overflow-x: hidden;
+            padding-bottom: 120px; 
+        }
+
+        /* --- Header Section --- */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(240, 248, 255, 1)), 
+                              url('https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4.5rem;
+            color: var(--accent-color);
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            animation: fadeInDown 1.5s ease;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-top: 10px;
+            font-weight: 600;
+            color: #4a4a4a;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+            opacity: 1;
+            animation: fadeIn 2.5s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        .scroll-down {
+            margin-top: 50px;
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            color: var(--accent-color);
+        }
+
+        /* --- Photo Gallery --- */
+        .gallery-section {
+            padding: 50px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 40px;
+        }
+
+        .photo-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 15px 15px 40px 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transform: rotate(-2deg);
+            width: 250px;
+            text-align: center;
+            border-radius: 2px;
+            opacity: 0;
+            transform: translateY(50px) rotate(-2deg); 
+            transition: all 0.8s ease-out; 
+        }
+
+        .polaroid:nth-child(even) {
+            transform: translateY(50px) rotate(2deg);
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border: 1px solid #eee;
+        }
+
+        .caption {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: #555;
+            margin-top: 15px;
+        }
+
+        /* --- Note Section --- */
+        .note-section {
+            padding: 60px 20px;
+            background: #e0f2fe; 
+            display: flex;
+            justify-content: center;
+            min-height: 600px; 
+        }
+
+        .paper {
+            background: #fff;
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            border-radius: 5px;
+            position: relative;
+            background-image: linear-gradient(#f1f1f1 1px, transparent 1px);
+            background-size: 100% 2em;
+            line-height: 2em;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 1s ease;
+        }
+
+        .paper h2 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            text-align: center;
+            margin-top: 0;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+
+        .note-content { animation: fadeIn 0.5s ease; }
+        .hidden { display: none; }
+
+        .btn-next {
+            display: block;
+            margin: 30px auto 0;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn-next:hover { transform: scale(1.05); background-color: #4a90e2; }
+
+        /* --- FOOTER --- */
+        footer {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px 150px 20px; 
+            font-size: 0.9rem;
+            color: #888;
+            box-sizing: border-box;
+        }
+
+        /* --- TRANSPARENT MUSIC PLAYER STYLES --- */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2); 
+            backdrop-filter: blur(5px); 
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 15px;
+            border-radius: 20px;
+            width: 250px; 
+            z-index: 1000;
+            animation: slideInUp 1s ease;
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .player-top {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .album-art {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid white;
+            flex-shrink: 0;
+        }
+        
+        .album-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .album-art.spinning {
+            animation: spin 4s linear infinite;
+        }
+
+        .song-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #333; 
+            text-shadow: 0 0 5px rgba(255,255,255,0.8); 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        /* Play Button at the Bottom */
+        .controls {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .play-btn {
+            background: var(--accent-color);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(93, 156, 236, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+            background: #4a90e2;
+        }
+
+        /* Animations */
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes slideInUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        /* Reveal Animations */
+        .polaroid.active { opacity: 1; transform: translateY(0) rotate(-2deg); }
+        .polaroid:nth-child(even).active { opacity: 1; transform: translateY(0) rotate(2deg); }
+        .paper.active { opacity: 1; transform: scale(1); }
+
+        /* Media Query for Mobile */
+        @media (max-width: 600px) {
+            h1 { font-size: 3rem; }
+            .polaroid { width: 100%; max-width: 300px; }
+            .music-player { right: 50%; transform: translateX(50%); bottom: 10px; width: 85%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Every Moment With You</h1>
+        <div class="subtitle">Is my favorite memory.</div>
+        <div class="scroll-down" onclick="document.getElementById('gallery').scrollIntoView({behavior: 'smooth'})">
+            ⌄
+        </div>
+    </header>
+
+    <section class="gallery-section" id="gallery">
+        <h2 class="section-title">Our Snapshots</h2>
+        <div class="photo-grid">
+            <div class="polaroid reveal"><img src="https://i.imgur.com/VGzK8yx.jpeg" alt="Memory 1"><div class="caption">You</div></div>
+            <div class="polaroid reveal"><img src="https://i.imgur.com/PcI630V.jpeg" alt="Memory 2"><div class="caption">You & Me</div></div>
+            <div class="polaroid reveal"><img src="https://i.imgur.com/AjXITZo.jpeg" alt="Memory 3"><div class="caption">Me</div></div>
+            <div class="polaroid reveal"><img src="https://i.imgur.com/lWguLhN.jpeg" alt="Memory 4"><div class="caption">Our first photo together</div></div>
+            <div class="polaroid reveal"><img src="https://i.imgur.com/Hx3H4hG.jpeg" alt="Memory 5"><div class="caption">Sabai Sabai date</div></div>
+            <div class="polaroid reveal"><img src="https://i.imgur.com/2PUdKGR.jpeg" alt="Memory 6"><div class="caption">Beach date</div></div>
+            <div class="polaroid reveal"><img src="https://i.imgur.com/a2kGtXY.jpeg" alt="Memory 7"><div class="caption">Christmas photo</div></div>
+            <div class="polaroid reveal"><img src="https://i.imgur.com/EzeV4Yj.jpeg" alt="Memory 8"><div class="caption">Leon's birthday pic together</div></div>
+            <div class="polaroid reveal"><img src="https://i.imgur.com/8pmAw6Q.jpeg" alt="Memory 9"><div class="caption">Whoop Whoop date</div></div>
+            <div class="polaroid reveal"><img src="https://i.imgur.com/hIUXDgr.jpeg" alt="Memory 10"><div class="caption">Goofy Pic</div></div>
+            <div class="polaroid reveal"><img src="https://i.imgur.com/cDEx6m8.jpeg" alt="Memory 11"><div class="caption">When we were at your house pic</div></div>
+            <div class="polaroid reveal"><img src="https://i.imgur.com/xEfDV5F.jpeg" alt="Memory 12"><div class="caption">Piala Dekan pic</div></div>
+            <div class="polaroid reveal"><img src="https://i.imgur.com/L17zn8D.jpeg" alt="Memory 13"><div class="caption">Hiroros pic</div></div>
+            <div class="polaroid reveal"><img src="https://i.imgur.com/lWguLhN.jpeg" alt="Memory 14"><div class="caption">Sufkal pic</div></div>
+            <div class="polaroid reveal"><img src="https://i.imgur.com/JHRheJc.jpeg" alt="Memory 15"><div class="caption">On our way to airport pic</div></div>
+            <div class="polaroid reveal"><img src="https://i.imgur.com/LyHAuIr.jpeg" alt="Memory 16"><div class="caption">Our first Album pic</div></div>
+
+        </div>
+    </section>
+
+    <section class="note-section">
+        <div class="paper reveal">
+            <h2>To My Girl</h2>
+            <div id="page1" class="note-content">
+                <p>
+                    Dear Zhennie, <br><br>
+                    I wanted to create this little corner of the internet just for us. Looking at these photos reminds me of how lucky I am to have you in my life.
+                    <br><br>
+                    Every day with you is a new adventure. Thank you for being my best friend, my partner, and my Valentine. I love your smile, your laugh, and the way you make everything better. Thank you for being you there for me through thick and thin.
+                </p>
+                <button class="btn-next" onclick="turnPage()">Read Next Page &rarr;</button>
+            </div>
+            <div id="page2" class="note-content hidden">
+                <p>
+                    There are so many more memories I want to make with you. Just as we pinky promise, No matter where life takes us, I will always be by your side. Forever.
+                    <br><br>
+                    Though I’m not physically by your side to celebrate Valentine’s Day this year, I got you a little something for today. I hope you like this digital card as much as I loved making it for you.
+                    <br><br>
+                    I love You always and forever, To the moon and back.
+                    <br><br>
+                    Forever yours,<br>
+                    Leon
+                </p>
+                <button class="btn-next" style="background-color: #aaa;" onclick="turnPageBack()">Go Back</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>Made with Love for you</footer>
+        
+    <div class="music-player">
+        
+        <div class="player-top">
+            <div class="album-art" id="albumArt">
+                <img src="https://i.imgur.com/LyHAuIr.jpeg" alt="Album Art">
+            </div>
+            <div class="song-title">恋人へ ~ Lamp</div>
+        </div>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="controls">
+            <button class="play-btn" id="playBtn" onclick="toggleMusic()">
+                ▶
+            </button>
+        </div>
+        
+        <audio id="bgMusic" loop>
+            <source src="for_lovers.mp3" type="audio/mp3">
+        </audio>
+    </div>
+
+    <script>
+        // Scroll Reveal
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Note Pages
+        function turnPage() {
+            document.getElementById('page1').style.display = 'none';
+            document.getElementById('page2').classList.remove('hidden');
+            document.getElementById('page2').style.display = 'block';
+        }
+        function turnPageBack() {
+            document.getElementById('page2').style.display = 'none';
+            document.getElementById('page1').style.display = 'block';
+        }
+
+        // --- MUSIC PLAYER LOGIC ---
+        const music = document.getElementById('bgMusic');
+        const playBtn = document.getElementById('playBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const albumArt = document.getElementById('albumArt');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                playBtn.innerHTML = '▶';
+                albumArt.classList.remove('spinning');
+            } else {
+                music.play();
+                playBtn.innerHTML = '❚❚';
+                albumArt.classList.add('spinning');
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // AUTOPLAY ATTEMPT
+        window.addEventListener('load', () => {
+            // Try to play immediately
+            music.play().then(() => {
+                isPlaying = true;
+                playBtn.innerHTML = '❚❚';
+                albumArt.classList.add('spinning');
+            }).catch(error => {
+                // If blocked, wait for the first click anywhere on page
+                console.log("Autoplay blocked. Waiting for interaction.");
+                document.body.addEventListener('click', () => {
+                    if (!isPlaying) {
+                        music.play();
+                        isPlaying = true;
+                        playBtn.innerHTML = '❚❚';
+                        albumArt.classList.add('spinning');
+                    }
+                }, { once: true });
+            });
+        });
+
+        music.addEventListener('timeupdate', (e) => {
+            const { duration, currentTime } = e.srcElement;
+            const progressPercent = (currentTime / duration) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+        });
+
+        progressContainer.addEventListener('click', (e) => {
+            const width = progressContainer.clientWidth;
+            const clickX = e.offsetX;
+            const duration = music.duration;
+            music.currentTime = (clickX / width) * duration;
+        });
+    </script>
+</body>
+</html>
